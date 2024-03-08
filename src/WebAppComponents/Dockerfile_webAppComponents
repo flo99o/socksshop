@@ -1,0 +1,6 @@
+FROM dotnet:8.0
+WORKDIR /WebAppComponents
+COPY /
+RUN dotnet workload update && dotnet workload install aspire
+ENV LOG=1
+CMD ["dotnet run", "WebAppCompenents.csproj"]

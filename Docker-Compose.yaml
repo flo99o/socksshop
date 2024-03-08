@@ -1,0 +1,84 @@
+version: '3'
+services:
+
+  app:
+    image: ASP.NET
+    command: sh -c "dotnet workload update && dotnet workload install aspire && dotnet restore eShop.Web.slnf"
+    ports:
+      - 127.0.0.1:3000:3000
+    working_dir: /src
+    volumes:
+      - ./:/src
+    environment:
+      POSTGRESQL_HOST: localhost
+      POSTGRESQL_USER: postgres
+      POSTGRESQL_PASSWORD: yourWeak(!)Password
+      POSTGRESQL_DB: IdentityDB
+
+      REDIS_HOST: REDIS
+      REDIS_USER: root
+      REDIS_PASSWORD: secret
+      REDIS_DB: todos
+
+
+
+  identity_service:
+    build:
+      context: ./src/Identity.API
+      dockerfile: Dockerfile_identity
+    environment:
+      LOG: "1"
+    networks:
+      - api_network
+  catalog_service:
+    build:
+      context: ./src/Catalog.API
+      dockerfile: Dockerfile_catalog
+    environment:
+      LOG: "1"
+    networks:
+      - api_network
+  order_service:
+    build:
+      context: ./src/Ordering.API
+      dockerfile: Dockerfile_ordering
+    environment:
+      LOG: "1"
+    networks:
+      - api_network
+  basket_api:
+    build:
+      context: ./src/Basket.API
+      dockerfile: Dockerfile_basket
+    environment:
+      LOG: "1"
+    networks:
+      - api_network
+  payment_service:
+    build:
+      context: ./src/PaymentProcessor
+      dockerfile: Dockerfile_payment
+    environment:
+      LOG: "1"
+    networks:
+      - api_network
+  webhooks_service:
+    build:
+      context: ./src/Webhooks.API
+      dockerfile: Dockerfile_webhooks
+    environment:
+      LOG: "1"
+    networks:
+      - api_network
+
+networks:
+  api_network:
+    driver: bridge
+command: sh -c "dotnet workload update && dotnet workload install aspire && dotnet restore eShop.Web.slnf"
+
+
+
+
+
+
+
