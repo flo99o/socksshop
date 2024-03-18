@@ -1,6 +1,6 @@
 FROM dotnet:8.0
 WORKDIR /Ordering.Domain
-COPY /
+COPY . .
 RUN dotnet workload update && dotnet workload install aspire
 ENV LOG=1
 CMD ["dotnet run", "Ordering.Domain.csproj"]
