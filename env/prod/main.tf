@@ -1,6 +1,6 @@
 module "servers" {
-  source        = "../../modules/ec2"
-  sg            = ["${module.security.sg_id}"]
+  source = "../../modules/ec2"
+  sg     = ["${module.security.sg_id}"]
   instance_type = var.instance_type
   tag           = var.tag
 }
@@ -13,7 +13,7 @@ module "security" {
   source = "../../modules/sg"
 }
 
-module "volume" {
+module "volume"{
   source = "../../modules/ebs"
 }
 
@@ -23,7 +23,7 @@ resource "aws_eip_association" "eip_assoc" {
   allocation_id = module.ip.eip_id
 }
 
-#Création de la relation entre l'instance et l'ebs
+
 resource "aws_volume_attachment" "ebs_att" {
   device_name = "/dev/sdh"
   volume_id   = module.volume.ebs_id
