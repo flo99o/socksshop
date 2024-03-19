@@ -1,5 +1,5 @@
 # Création du security group
-resource "aws_security_group" "matthieu-sg" {
+resource "aws_security_group" "sockshop-sg" {
   name        = "${var.tag}_sg_http_ssh2"
   description = "Security group for my EC2 instance"
   #Ouverture du port SSH en entrée
@@ -32,9 +32,3 @@ resource "aws_security_group" "matthieu-sg" {
     ipv6_cidr_blocks = ["::/0"]
   }
 }
-
-
-#resource "aws_network_interface_sg_attachment" "sg_attachment" {
-#  security_group_id    = aws_security_group.matthieu-sg.id
-#  network_interface_id = aws_instance.ec2.primary_network_interface_id
-#}
